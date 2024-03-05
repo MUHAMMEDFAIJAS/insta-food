@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
 import 'package:firstproject/model/biriyanimodel/product1model.dart';
@@ -7,6 +9,7 @@ import 'package:firstproject/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+ const SAVE_KEY =' UserLgedIn';
 
 
 void main() async {

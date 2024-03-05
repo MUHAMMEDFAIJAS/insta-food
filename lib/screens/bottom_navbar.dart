@@ -10,10 +10,10 @@ class BottomNav extends StatefulWidget {
   State<BottomNav> createState() => _BottomNavState();
 }
 
-class _BottomNavState extends State<BottomNav> {
+class _BottomNavState extends State<BottomNav> { 
   int currentindex = 0;
 
-  List screens = [const HomeScreen(), AddCart(), const MySettings()];
+  List screens = [const HomeScreen(),const AddCart(), const MySettings()];
 
   @override
   Widget build(BuildContext context) {

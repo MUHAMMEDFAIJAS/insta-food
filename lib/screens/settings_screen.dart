@@ -1,9 +1,11 @@
 import 'package:firstproject/admin/admin_page.dart';
+import 'package:firstproject/main.dart';
 import 'package:firstproject/screens/about_us.dart';
 import 'package:firstproject/screens/buy_now.dart';
 import 'package:firstproject/screens/login_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MySettings extends StatelessWidget {
   const MySettings({Key? key}) : super(key: key);
@@ -45,7 +47,12 @@ class MySettings extends StatelessWidget {
           SettingsItem(
               icon: Icons.logout,
               title: 'log out',
-              onTap: () {
+              onTap: () async {
+                final sharedprf = await SharedPreferences.getInstance();
+                await sharedprf.clear();
+
+                (SAVE_KEY, 'UserLgedIn');
+
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const Login()),
                 );

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firstproject/admin/adminfunction/update_product.dart';
+import 'package:firstproject/functions/juice_function.dart';
 import 'package:firstproject/model/biriyanimodel/product1model.dart';
 import 'package:firstproject/functions/biriyani_function.dart';
 import 'package:flutter/material.dart';
@@ -40,68 +41,82 @@ class _ViewproductState extends State<Viewproduct> {
                   itemBuilder: (context, index) {
                     final product = productList[index];
                     return Container(
-                      margin: const EdgeInsets.only(top: 10, bottom: 10),
                       width: 120,
                       height: 220,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 149, 126, 184),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.blue),
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        elevation: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image(
+                                image: FileImage(File(product.imagepath)),
+                                width: 200,
+                              ),
+                            ),
+                            Column(
                               children: [
-                                Image(
-                                  image: FileImage(File(product.imagepath)),
-                                  height: 100,
-                                  fit: BoxFit.cover,
+                                const SizedBox(height: 20),
+                                Text(
+                                  product.name,
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                Text(product.name),
-                                Text(product.price),
+                                const SizedBox(height: 10),
+                                Text(
+                                  'Price: ${product.price}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                                const SizedBox(height: 25),
+                                ElevatedButton.icon(
+                                    onPressed: () {
+                                      deletproducts3(index);
+                                      setState(() {});
+                                      getAllproducts3();
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.redAccent,
+                                    ),
+                                    label: const Text('Delete')),
+                                IconButton(
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditScreen(
+                                          name: product.name,
+                                          price: product.price,
+                                          imagepath: product.imagepath,
+                                          index: index,
+                                        ),
+                                      ),
+                                    );
+
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  deletproducts(index);
-                                  setState(() {});
-                                  getAllproducts1();
-                                },
-                                icon: const Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => EditScreen(
-                                        name: product.name,
-                                        price: product.price,
-                                        imagepath: product.imagepath,
-                                        index: index,
-                                      ),
-                                    ),
-                                  );
-
-                                  setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.edit,
-                                  color: Colors.blue,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },

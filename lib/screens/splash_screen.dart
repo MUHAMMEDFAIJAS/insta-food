@@ -1,7 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:firstproject/main.dart';
+import 'package:firstproject/screens/bottom_navbar.dart';
 import 'package:firstproject/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     gotoLogin();
+    checklogin();
   }
 
   @override
@@ -35,10 +40,25 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<void> gotoLogin() async {
+  void gotoLogin() async {
     await Future.delayed(const Duration(seconds: 3));
 
-    Navigator.of(context)
-        .pushReplacement((MaterialPageRoute(builder: (ctx) => const Login())));
+    Navigator.of(context).pushReplacement(
+        (MaterialPageRoute(builder: (context) => const Login())));
+  }
+
+  Future<void> checklogin() async {
+    final sharedprf = await SharedPreferences.getInstance();
+    final userlogin = sharedprf.getString(SAVE_KEY);
+
+    if (userlogin == null || userlogin.isEmpty) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const Login()));
+    } else {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return const BottomNav();
+      }));
+    }
   }
 }

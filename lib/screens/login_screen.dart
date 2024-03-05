@@ -1,5 +1,7 @@
+import 'package:firstproject/main.dart';
 import 'package:firstproject/screens/bottom_navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,18 +17,6 @@ class _LoginState extends State<Login> {
   final String password = '123';
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  void _login() {
-    String username = userController.text;
-    String password = passwordController.text;
-
-    if (username == 'asd' && password == "123") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const BottomNav()),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +77,7 @@ class _LoginState extends State<Login> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formkey.currentState!.validate()) {
-                      _login();
+                      login();
                     }
                   },
                   child: const Text('Login'),
@@ -98,5 +88,19 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    final user = userController.text;
+    final pass = passwordController.text;
+
+    if (user == username && pass == password) {
+      final sharedprf = await SharedPreferences.getInstance();
+      await sharedprf.setString(SAVE_KEY, 'UserLgedIn');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNav()),
+      );
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firstproject/model/biriyanimodel/product1model.dart';
 import 'package:firstproject/functions/biriyani_function.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditScreen extends StatefulWidget {
   final String name;
@@ -36,23 +37,15 @@ class EditScreenState extends State<EditScreen> {
   }
 
   @override
-  void dispose() {
-    nameContrl.dispose();
-    priceContrl.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.orange[300],
         title: const Center(
           child: Text(
-            "EDIT Product",
+            "Edit Product",
             style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -69,7 +62,6 @@ class EditScreenState extends State<EditScreen> {
                     width: 200,
                     height: 200,
                     child: CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 25, 25, 81),
                       backgroundImage: _selectImage != null
                           ? FileImage(_selectImage!)
                           : const AssetImage("assets/images/default_image.jpg")
@@ -101,15 +93,14 @@ class EditScreenState extends State<EditScreen> {
                       onPressed: _pickImgGallery,
                       child: const Text('Choose Image'),
                     ),
-                    ElevatedButton(
-                      onPressed: _pickImageFromCam,
-                      child: const Text('Take Photo'),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: updateAll,
+                  onPressed: () {
+                    updateAll();
+                    Navigator.pop(context);
+                  },
                   child: const Text('Update Product'),
                 ),
               ],
@@ -134,11 +125,14 @@ class EditScreenState extends State<EditScreen> {
     }
   }
 
-  void _pickImgGallery() {
-    // Implement image picking from gallery
-  }
+  void _pickImgGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-  void _pickImageFromCam() {
-    // Implement image picking from camera
+    if (pickedImage != null) {
+      setState(() {
+        _selectImage = File(pickedImage.path);
+      });
+    }
   }
 }
