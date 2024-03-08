@@ -1,12 +1,11 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:firstproject/model/burgermodel/product2model.dart';
-
-import 'package:firstproject/functions/burger_function.dart';
 import 'package:firstproject/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
 
 class Producttwo extends StatefulWidget {
   const Producttwo({Key? key}) : super(key: key);
@@ -16,22 +15,20 @@ class Producttwo extends StatefulWidget {
 }
 
 class _ProducttwoState extends State<Producttwo> {
-  String search = "";
-  List<Product2Model> searchedList = [];
+  String search = '';
+  List<NewFoodModel> searchedList = [];
 
-  void searchListUpdate() {
-    getAllproducts2();
-    searchedList = product2ListNotifier.value
-        .where(
-          (product) =>
-              product.name.toLowerCase().contains(search.toLowerCase()),
-        )
+  void searchlist() {
+    searchedList = newFoodModelListNotifier.value
+        .where((NewFoodModel newmodel) =>
+            newmodel.catagory.toLowerCase() == 'burger' &&
+            newmodel.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    getAllproducts2();
+    getAllNewFood();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -53,12 +50,12 @@ class _ProducttwoState extends State<Producttwo> {
                 onChanged: (value) {
                   setState(() {
                     search = value;
-                    searchListUpdate();
+                    searchlist();
                   });
                 },
                 decoration: const InputDecoration(
                   iconColor: Colors.white,
-                  hintText: 'search for biriyani',
+                  hintText: 'search for burgers..',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -72,17 +69,21 @@ class _ProducttwoState extends State<Producttwo> {
       body: Column(
         children: [
           Expanded(
-            child: ValueListenableBuilder<List<Product2Model>>(
-              valueListenable: product2ListNotifier,
-              builder: (BuildContext ctx, List<Product2Model> productList,
+            child: ValueListenableBuilder<List<NewFoodModel>>(
+              valueListenable: newFoodModelListNotifier,
+              builder: (BuildContext ctx, List<NewFoodModel> productList,
                   Widget? child) {
+                final filteredList = productList
+                    .where((foodModel) =>
+                        foodModel.catagory.toLowerCase() == 'burger')
+                    .toList();
                 return search.isNotEmpty
                     ? searchedList.isEmpty
                         ? const Center(
                             child: Text('No value'),
                           )
                         : gridview(searchedList)
-                    : gridview(productList);
+                    : gridview(filteredList);
               },
             ),
           ),
@@ -91,7 +92,7 @@ class _ProducttwoState extends State<Producttwo> {
     );
   }
 
-  Widget gridview(List<Product2Model> productList) {
+  Widget gridview(List<NewFoodModel> productList) {
     return productList.isEmpty
         ? const Center(
             child: Text('No products available'),
@@ -105,7 +106,6 @@ class _ProducttwoState extends State<Producttwo> {
             itemCount: productList.length,
             itemBuilder: (context, index) {
               final data = productList[index];
-              log(data.name);
 
               return GestureDetector(
                 onTap: () {

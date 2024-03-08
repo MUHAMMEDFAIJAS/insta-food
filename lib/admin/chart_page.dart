@@ -1,7 +1,8 @@
 import 'package:fine_bar_chart/fine_bar_chart.dart';
-import 'package:firstproject/admin/category/view_product_one.dart';
-import 'package:firstproject/admin/category/view_product_three.dart';
-import 'package:firstproject/admin/category/view_product_two.dart';
+import 'package:firstproject/admin/category/view_products.dart';
+import 'package:firstproject/screens/buy_now.dart';
+import 'package:firstproject/screens/cart_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class BarChart extends StatefulWidget {
@@ -14,18 +15,14 @@ class BarChart extends StatefulWidget {
 class _BarChartState extends State<BarChart> {
   List<double> barValue = [
     totalprice1(),
-    totalprice2(),
-    totalprice3(),
+    totalcartprice(),
+    totalpricebuy(),
   ];
-  List<Color> barColors = [
-    Colors.red,
-    Colors.yellow,
-    Colors.blue,
-  ];
+  List<Color> barColors = [Colors.blue, Colors.red, Colors.yellow];
   List<String> bottomBarName = [
-    "Biriyani",
-    "Burger",
-    "Juices",
+    'total product ',
+    'total cart ',
+    'total buyed ',
   ];
   @override
   Widget build(BuildContext context) {

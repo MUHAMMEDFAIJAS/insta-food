@@ -39,7 +39,7 @@ class _AddCartState extends State<AddCart> {
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: carListNotifer,
+              valueListenable: cartListNotifer,
               builder:
                   (BuildContext ctx, List<CartModel>? cartList, Widget? child) {
                 if (cartList == null || cartList.isEmpty) {
@@ -48,9 +48,9 @@ class _AddCartState extends State<AddCart> {
                   );
                 }
                 return ListView.builder(
-                  itemCount: carListNotifer.value.length,
+                  itemCount: cartListNotifer.value.length,
                   itemBuilder: (context, index) {
-                    final data = carListNotifer.value[index];
+                    final data = cartListNotifer.value[index];
 
                     return Container(
                       padding: const EdgeInsets.all(5),
@@ -148,7 +148,7 @@ class _AddCartState extends State<AddCart> {
                       ),
                     ),
                     Text(
-                      '₹ ${totalprice()}',
+                      '₹ ${totalcartprice()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -166,9 +166,9 @@ class _AddCartState extends State<AddCart> {
   }
 }
 
-num totalprice() {
-  num totals = 0;
-  for (var item in carListNotifer.value) {
+double totalcartprice() {
+  double totals = 0;
+  for (var item in cartListNotifer.value) {
     totals += num.parse(item.price);
   }
   return totals;

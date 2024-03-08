@@ -17,7 +17,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
     gotoLogin();
     checklogin();
   }
@@ -55,10 +54,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const Login()));
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return const BottomNav();
-      }));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const BottomNav()));
     }
   }
 }

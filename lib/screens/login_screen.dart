@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firstproject/main.dart';
 import 'package:firstproject/screens/bottom_navbar.dart';
 import 'package:flutter/material.dart';

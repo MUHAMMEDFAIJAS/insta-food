@@ -1,38 +1,46 @@
 import 'dart:io';
 
 import 'package:firstproject/admin/adminfunction/update_product.dart';
-import 'package:firstproject/model/burgermodel/product2model.dart';
 
-import 'package:firstproject/functions/burger_function.dart';
 import 'package:flutter/material.dart';
 
-class Viewproducttwo extends StatefulWidget {
-  const Viewproducttwo({super.key});
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
+
+class Viewproducts extends StatefulWidget {
+  const Viewproducts({Key? key}) : super(key: key);
 
   @override
-  State<Viewproducttwo> createState() => _ViewproducttwoState();
+  State<Viewproducts> createState() => _ViewproductsState();
 }
 
-class _ViewproducttwoState extends State<Viewproducttwo> {
+class _ViewproductsState extends State<Viewproducts> {
   @override
   Widget build(BuildContext context) {
-    getAllproducts2();
+    getAllNewFood();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
-        title: const Text('BURGER'),
+        title: const Text(
+          'ALL PRODUCTS',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+        ),
       ),
       body: Column(
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: product2ListNotifier,
-              builder: (BuildContext ctx, List<Product2Model> productList,
+              valueListenable: newFoodModelListNotifier,
+              builder: (BuildContext ctx, List<NewFoodModel> productList,
                   Widget? child) {
                 return ListView.builder(
                   itemCount: productList.length,
                   itemBuilder: (context, index) {
-                    final product = productList[index];
+                    final data = productList[index];
                     return Container(
                       width: 120,
                       height: 220,
@@ -50,15 +58,15 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
                               child: Image(
-                                image: FileImage(File(product.imagepath)),
-                                height: 100,
+                                image: FileImage(File(data.imagepath)),
+                                width: 200,
                               ),
                             ),
                             Column(
                               children: [
                                 const SizedBox(height: 20),
                                 Text(
-                                  product.name,
+                                  data.name,
                                   style: const TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
@@ -66,7 +74,7 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  'Price: ${product.price}',
+                                  'Price: ${data.price}',
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -76,7 +84,9 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                                 const SizedBox(height: 25),
                                 ElevatedButton.icon(
                                     onPressed: () {
+                                      deleteNew(index);
                                       setState(() {});
+                                      getAllNewFood();
                                     },
                                     icon: const Icon(
                                       Icons.delete,
@@ -89,15 +99,14 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => EditScreen(
-                                          name: product.name,
-                                          price: product.price,
-                                          imagepath: product.imagepath,
+                                          name: data.name,
+                                          price: data.price,
+                                          imagepath: data.imagepath,
                                           index: index,
+                                          catogery: data.catagory,
                                         ),
                                       ),
                                     );
-
-                                    setState(() {});
                                   },
                                   icon: const Icon(
                                     Icons.edit,
@@ -105,7 +114,7 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -136,7 +145,7 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
                       ),
                     ),
                     Text(
-                      '₹ ${totalprice2()}',
+                      '₹ ${totalprice1()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -154,9 +163,9 @@ class _ViewproducttwoState extends State<Viewproducttwo> {
   }
 }
 
-double totalprice2() {
+double totalprice1() {
   double totals = 0;
-  for (var item in product2ListNotifier.value) {
+  for (var item in newFoodModelListNotifier.value) {
     totals += double.parse(item.price);
   }
   return totals;

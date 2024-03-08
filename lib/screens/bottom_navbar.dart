@@ -10,10 +10,10 @@ class BottomNav extends StatefulWidget {
   State<BottomNav> createState() => _BottomNavState();
 }
 
-class _BottomNavState extends State<BottomNav> { 
+class _BottomNavState extends State<BottomNav> {
   int currentindex = 0;
 
-  List screens = [const HomeScreen(),const AddCart(), const MySettings()];
+  List screens = [const HomeScreen(), const AddCart(), const MySettings()];
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,9 @@ class _BottomNavState extends State<BottomNav> {
             currentindex = newindex;
           });
         },
-        selectedItemColor: Colors.lightBlue,
+        selectedItemColor: Colors.orange,
         unselectedItemColor: Colors.black,
-      
         backgroundColor: const Color(0xFBc2b280),
-
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(

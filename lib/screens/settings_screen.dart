@@ -1,5 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firstproject/admin/admin_page.dart';
-import 'package:firstproject/main.dart';
 import 'package:firstproject/screens/about_us.dart';
 import 'package:firstproject/screens/buy_now.dart';
 import 'package:firstproject/screens/login_screen.dart';
@@ -50,8 +51,6 @@ class MySettings extends StatelessWidget {
               onTap: () async {
                 final sharedprf = await SharedPreferences.getInstance();
                 await sharedprf.clear();
-
-                (SAVE_KEY, 'UserLgedIn');
 
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const Login()),

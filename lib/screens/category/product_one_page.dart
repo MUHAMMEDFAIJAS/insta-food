@@ -1,10 +1,12 @@
+
 import 'dart:io';
 
-import 'package:firstproject/model/biriyanimodel/product1model.dart';
-import 'package:firstproject/functions/biriyani_function.dart';
 import 'package:firstproject/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
 
 class Product1 extends StatefulWidget {
   const Product1({Key? key}) : super(key: key);
@@ -15,21 +17,19 @@ class Product1 extends StatefulWidget {
 
 class _Product1State extends State<Product1> {
   String search = "";
-  List<ProductModel1> searchedList = [];
+  List<NewFoodModel> searchedList = [];
 
   void searchListUpdate() {
-    getAllproducts1();
-    searchedList = product1ListNotifier.value
-        .where(
-          (product) =>
-              product.name.toLowerCase().contains(search.toLowerCase()),
-        )
+    searchedList = newFoodModelListNotifier.value
+        .where((NewFoodModel foodModel) =>
+            foodModel.catagory.toLowerCase() == 'biriyani' &&
+            foodModel.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    getAllproducts1();
+    getAllNewFood();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -70,17 +70,21 @@ class _Product1State extends State<Product1> {
       body: Column(
         children: [
           Expanded(
-            child: ValueListenableBuilder<List<ProductModel1>>(
-              valueListenable: product1ListNotifier,
-              builder: (BuildContext ctx, List<ProductModel1> productList,
+            child: ValueListenableBuilder<List<NewFoodModel>>(
+              valueListenable: newFoodModelListNotifier,
+              builder: (BuildContext ctx, List<NewFoodModel> productList,
                   Widget? child) {
+                final filteredList = productList
+                    .where((foodModel) =>
+                        foodModel.catagory.toLowerCase() == 'biriyani')
+                    .toList();
                 return search.isNotEmpty
                     ? searchedList.isEmpty
                         ? const Center(
                             child: Text('No value'),
                           )
                         : gridview(searchedList)
-                    : gridview(productList);
+                    : gridview(filteredList);
               },
             ),
           ),
@@ -89,7 +93,7 @@ class _Product1State extends State<Product1> {
     );
   }
 
-  Widget gridview(List<ProductModel1> productList) {
+  Widget gridview(List<NewFoodModel> productList) {
     return productList.isEmpty
         ? const Center(
             child: Text('No products available'),

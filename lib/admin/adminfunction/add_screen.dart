@@ -2,15 +2,11 @@
 
 import 'dart:io';
 
-import 'package:firstproject/model/biriyanimodel/product1model.dart';
-import 'package:firstproject/model/burgermodel/product2model.dart';
-import 'package:firstproject/model/juicemodel/product3model.dart';
-
-import 'package:firstproject/functions/biriyani_function.dart';
-import 'package:firstproject/functions/burger_function.dart';
-import 'package:firstproject/functions/juice_function.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
 
 class Addscreen extends StatefulWidget {
   const Addscreen({Key? key}) : super(key: key);
@@ -23,6 +19,7 @@ enum Database { Briyani, Burger, Juices }
 
 class _AddscreenState extends State<Addscreen> {
   File? _image;
+  String dropdownvalue = 'biriyani';
 
   Database selectedDb = Database.Briyani;
 
@@ -42,6 +39,11 @@ class _AddscreenState extends State<Addscreen> {
 
   @override
   Widget build(BuildContext context) {
+    var items = [
+      'biriyani',
+      'burger',
+      'juice',
+    ];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -76,21 +78,30 @@ class _AddscreenState extends State<Addscreen> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  DropdownButton<Database>(
-                      value: selectedDb,
-                      items: const [
-                        DropdownMenuItem(
-                            value: Database.Briyani, child: Text('BIRIYANI')),
-                        DropdownMenuItem(
-                            value: Database.Burger, child: Text('BURGER')),
-                        DropdownMenuItem(
-                            value: Database.Juices, child: Text('JUICES'))
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedDb = value!;
-                        });
-                      }),
+                  DropdownButton(
+                    value: dropdownvalue,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: items.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text(items),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownvalue = newValue!;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.black),
+                    underline: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue,
+                          border: const Border(
+                              bottom: BorderSide(style: BorderStyle.solid))),
+                      height: 1,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {
@@ -116,12 +127,13 @@ class _AddscreenState extends State<Addscreen> {
       if (newname.isEmpty || newprice.isEmpty) {
         return;
       }
-      final product = ProductModel1(
+      final product = NewFoodModel(
         name: newname,
         price: newprice,
         imagepath: _image!.path,
+        catagory: dropdownvalue,
       );
-      addproducts1(product);
+      newAddedFood(product);
 
       Navigator.pop(context);
     } else if (selectedDb == Database.Burger) {
@@ -131,12 +143,13 @@ class _AddscreenState extends State<Addscreen> {
       if (newname.isEmpty || newprice.isEmpty) {
         return;
       }
-      final product = Product2Model(
+      final product = NewFoodModel(
         name: newname,
         price: newprice,
         imagepath: _image!.path,
+        catagory: dropdownvalue,
       );
-      addproducts2(product);
+      newAddedFood(product);
 
       Navigator.pop(context);
     } else if (selectedDb == Database.Juices) {
@@ -146,12 +159,13 @@ class _AddscreenState extends State<Addscreen> {
       if (newname.isEmpty || newprice.isEmpty) {
         return;
       }
-      final product = Product3Model(
+      final product = NewFoodModel(
         name: newname,
         price: newprice,
         imagepath: _image!.path,
+        catagory: dropdownvalue,
       );
-      addproducts3(product);
+      newAddedFood(product);
 
       Navigator.pop(context);
     }

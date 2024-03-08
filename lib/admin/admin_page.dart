@@ -1,7 +1,7 @@
 import 'package:firstproject/admin/adminfunction/add_screen.dart';
 import 'package:firstproject/admin/adminfunction/admin_function.dart';
+import 'package:firstproject/admin/category/view_products.dart';
 import 'package:firstproject/admin/chart_page.dart';
-import 'package:firstproject/admin/view_category.dart';
 
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _AdminpageState extends State<Adminpage> {
               title: 'view products',
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const Viewcategory()));
+                    builder: (context) => const Viewproducts()));
               }),
           SettingsItem(
             icon: Icons.list,
@@ -52,7 +52,27 @@ class _AdminpageState extends State<Adminpage> {
               icon: Icons.delete_forever,
               title: 'delete all products',
               onTap: () {
-                deleteall();
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                          title: const Text('confirm delete'),
+                          actions: [
+                            TextButton(
+                              child: const Text("Cancel"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                deleteall();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('delete'),
+                            )
+                          ]);
+                    });
               })
         ],
       ),

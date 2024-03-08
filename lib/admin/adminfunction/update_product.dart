@@ -1,15 +1,18 @@
 import 'dart:io';
 
-import 'package:firstproject/model/biriyanimodel/product1model.dart';
-import 'package:firstproject/functions/biriyani_function.dart';
 import 'package:flutter/material.dart';
+
 import 'package:image_picker/image_picker.dart';
+
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
 
 class EditScreen extends StatefulWidget {
   final String name;
   final String price;
   final String imagepath;
   final int index;
+  final String catogery;
 
   const EditScreen({
     Key? key,
@@ -17,6 +20,7 @@ class EditScreen extends StatefulWidget {
     required this.price,
     required this.imagepath,
     required this.index,
+    required this.catogery,
   }) : super(key: key);
 
   @override
@@ -30,10 +34,10 @@ class EditScreenState extends State<EditScreen> {
 
   @override
   void initState() {
-    super.initState();
     nameContrl = TextEditingController(text: widget.name);
     priceContrl = TextEditingController(text: widget.price);
     _selectImage = widget.imagepath.isNotEmpty ? File(widget.imagepath) : null;
+    super.initState();
   }
 
   @override
@@ -70,6 +74,13 @@ class EditScreenState extends State<EditScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: _pickImgGallery,
+                    child: const Text('select Image'),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: nameContrl,
                   decoration: const InputDecoration(
@@ -86,22 +97,14 @@ class EditScreenState extends State<EditScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      onPressed: _pickImgGallery,
-                      child: const Text('Choose Image'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    updateAll();
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Update Product'),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      updateAll(widget.index);
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Update Product'),
+                  ),
                 ),
               ],
             ),
@@ -111,28 +114,34 @@ class EditScreenState extends State<EditScreen> {
     );
   }
 
-  Future<void> updateAll() async {
-    final namelx = nameContrl.text;
-    final pricelx = priceContrl.text;
-    final imagelx = _selectImage?.path;
+  Future<void> updateAll(int index) async {
+    final newName = nameContrl.text.trim();
+    final newPrice = priceContrl.text.trim();
+    final newImagePath =
+        _selectImage != null ? _selectImage!.path : widget.imagepath;
 
-    if (namelx.isEmpty || pricelx.isEmpty || imagelx == null) {
+    if (newName.isEmpty || newPrice.isEmpty || newImagePath.isEmpty) {
       return;
-    } else {
-      final update =
-          ProductModel1(name: namelx, price: pricelx, imagepath: imagelx);
-      editproductone(widget.index, update);
     }
+    final update = NewFoodModel(
+      name: newName,
+      price: newPrice,
+      imagepath: newImagePath,
+      catagory: widget.catogery,
+    );
+    editNewFood(index, update);
+    setState(() {});
+    Navigator.pop(context);
   }
 
-  void _pickImgGallery() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        _selectImage = File(pickedImage.path);
-      });
+  Future<void> _pickImgGallery() async {
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (returnImage == null) {
+      return;
     }
+    setState(() {
+      _selectImage = File(returnImage.path);
+    });
   }
 }

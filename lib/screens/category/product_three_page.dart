@@ -1,43 +1,39 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:firstproject/model/juicemodel/product3model.dart';
-
-import 'package:firstproject/functions/burger_function.dart';
-import 'package:firstproject/functions/juice_function.dart';
 import 'package:firstproject/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class Productthree extends StatefulWidget {
-  const Productthree({Key? key}) : super(key: key);
+import '../../functions/food_function.dart';
+import '../../model/newmodel/new_food_mode.dart';
+
+class Product3 extends StatefulWidget {
+  const Product3({Key? key}) : super(key: key);
 
   @override
-  State<Productthree> createState() => _ProductthreeState();
+  State<Product3> createState() => _Product3State();
 }
 
-class _ProductthreeState extends State<Productthree> {
+class _Product3State extends State<Product3> {
   String search = "";
-  List<Product3Model> searchedList = [];
+  List<NewFoodModel> searchedList = [];
 
   void searchListUpdate() {
-    getAllproducts2();
-    searchedList = product3ListNotifier.value
-        .where(
-          (product) =>
-              product.name.toLowerCase().contains(search.toLowerCase()),
-        )
+    searchedList = newFoodModelListNotifier.value
+        .where((NewFoodModel foodModel) =>
+            foodModel.catagory.toLowerCase() == 'juice' &&
+            foodModel.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    getAllproducts3();
+    getAllNewFood();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
         title: const Text(
-          'JUICESS',
+          'JUICES',
           style: TextStyle(color: Colors.black, fontSize: 30),
         ),
         bottom: PreferredSize(
@@ -59,7 +55,7 @@ class _ProductthreeState extends State<Productthree> {
                 },
                 decoration: const InputDecoration(
                   iconColor: Colors.white,
-                  hintText: 'search for biriyani',
+                  hintText: 'search for juices...',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -73,17 +69,21 @@ class _ProductthreeState extends State<Productthree> {
       body: Column(
         children: [
           Expanded(
-            child: ValueListenableBuilder<List<Product3Model>>(
-              valueListenable: product3ListNotifier,
-              builder: (BuildContext ctx, List<Product3Model> productList,
+            child: ValueListenableBuilder<List<NewFoodModel>>(
+              valueListenable: newFoodModelListNotifier,
+              builder: (BuildContext ctx, List<NewFoodModel> productList,
                   Widget? child) {
+                final filteredList = productList
+                    .where((foodModel) =>
+                        foodModel.catagory.toLowerCase() == 'juice')
+                    .toList();
                 return search.isNotEmpty
                     ? searchedList.isEmpty
                         ? const Center(
                             child: Text('No value'),
                           )
                         : gridview(searchedList)
-                    : gridview(productList);
+                    : gridview(filteredList);
               },
             ),
           ),
@@ -92,7 +92,7 @@ class _ProductthreeState extends State<Productthree> {
     );
   }
 
-  Widget gridview(List<Product3Model> productList) {
+  Widget gridview(List<NewFoodModel> productList) {
     return productList.isEmpty
         ? const Center(
             child: Text('No products available'),
@@ -106,7 +106,6 @@ class _ProductthreeState extends State<Productthree> {
             itemCount: productList.length,
             itemBuilder: (context, index) {
               final data = productList[index];
-              log(data.name);
 
               return GestureDetector(
                 onTap: () {
