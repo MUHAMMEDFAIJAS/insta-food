@@ -1,57 +1,65 @@
 import 'dart:io';
 
-import 'package:firstproject/admin/adminfunction/update_product.dart';
-
+import 'package:firstproject/controller/buy_now_provider.dart';
+import 'package:firstproject/controller/cart_provider.dart';
+import 'package:firstproject/model/buynow/buynowmodel.dart';
+import 'package:firstproject/model/cartmodel/cartmodel.dart';
+import 'package:firstproject/functions/cart_functions.dart';
+import 'package:firstproject/view/buy_now.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../functions/food_function.dart';
-import '../../model/newmodel/new_food_mode.dart';
+class AddCart extends StatelessWidget {
+  const AddCart({
+    super.key,
+  });
 
-class Viewproducts extends StatefulWidget {
-  const Viewproducts({Key? key}) : super(key: key);
-
-  @override
-  State<Viewproducts> createState() => _ViewproductsState();
-}
-
-class _ViewproductsState extends State<Viewproducts> {
   @override
   Widget build(BuildContext context) {
-    getAllNewFood();
+    final cartprovider = Provider.of<CartProvider>(context);
+    final buyprovider = Provider.of<Buynowprovider>(context);
+    cartprovider.getallcartsprovider();
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[300],
-        title: const Text(
-          'ALL PRODUCTS',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+        title: const Center(
+          child: Text(
+            'CART',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
           ),
         ),
+        backgroundColor: Colors.orange[300],
       ),
       body: Column(
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              valueListenable: newFoodModelListNotifier,
-              builder: (BuildContext ctx, List<NewFoodModel> productList,
-                  Widget? child) {
+              valueListenable: cartListNotifer,
+              builder:
+                  (BuildContext ctx, List<CartModel>? cartList, Widget? child) {
+                if (cartList == null || cartList.isEmpty) {
+                  return const Center(
+                    child: Text('Add items to your cart'),
+                  );
+                }
                 return ListView.builder(
-                  itemCount: productList.length,
+                  itemCount: cartListNotifer.value.length,
                   itemBuilder: (context, index) {
-                    final data = productList[index];
+                    final data = cartListNotifer.value[index];
+
                     return Container(
-                      width: 120,
-                      height: 220,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                      padding: const EdgeInsets.all(5),
+                      margin: const EdgeInsets.only(top: 10, bottom: 10),
+                      height: 250,
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        elevation: 30,
+                        elevation: 10,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -64,7 +72,7 @@ class _ViewproductsState extends State<Viewproducts> {
                             ),
                             Column(
                               children: [
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 25),
                                 Text(
                                   data.name,
                                   style: const TextStyle(
@@ -82,37 +90,31 @@ class _ViewproductsState extends State<Viewproducts> {
                                   ),
                                 ),
                                 const SizedBox(height: 25),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    buyprovider.addbuynow(BuynowModel(
+                                      name: data.name,
+                                      price: data.price,
+                                      imagepath: data.imagepath,
+                                    ));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const BuyNowPage()));
+                                  },
+                                  child: const Text('Buy Now'),
+                                ),
                                 ElevatedButton.icon(
                                     onPressed: () {
-                                      deleteNew(index);
-                                      setState(() {});
-                                      getAllNewFood();
+                                      cartprovider.deletecartprovider(index);
+
+                                      cartprovider.getallcartsprovider();
                                     },
                                     icon: const Icon(
                                       Icons.delete,
                                       color: Colors.redAccent,
                                     ),
-                                    label: const Text('Delete')),
-                                IconButton(
-                                  onPressed: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => EditScreen(
-                                          name: data.name,
-                                          price: data.price,
-                                          imagepath: data.imagepath,
-                                          index: index,
-                                          catogery: data.catagory,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.blue,
-                                  ),
-                                ),
+                                    label: const Text('Delete'))
                               ],
                             ),
                           ],
@@ -145,7 +147,7 @@ class _ViewproductsState extends State<Viewproducts> {
                       ),
                     ),
                     Text(
-                      '₹ ${totalprice1()}',
+                      '₹ ${cartprovider.totalcartprice()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -161,12 +163,6 @@ class _ViewproductsState extends State<Viewproducts> {
       ),
     );
   }
-}
 
-double totalprice1() {
-  double totals = 0;
-  for (var item in newFoodModelListNotifier.value) {
-    totals += double.parse(item.price);
-  }
-  return totals;
+
 }

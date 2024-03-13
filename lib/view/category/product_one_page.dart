@@ -1,39 +1,28 @@
 import 'dart:io';
 
-import 'package:firstproject/screens/product_details_screen.dart';
+import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/search_provider.dart';
+import 'package:firstproject/view/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../../functions/food_function.dart';
 import '../../model/newmodel/new_food_mode.dart';
 
-class Product3 extends StatefulWidget {
-  const Product3({Key? key}) : super(key: key);
-
-  @override
-  State<Product3> createState() => _Product3State();
-}
-
-class _Product3State extends State<Product3> {
-  String search = "";
-  List<NewFoodModel> searchedList = [];
-
-  void searchListUpdate() {
-    searchedList = newFoodModelListNotifier.value
-        .where((NewFoodModel foodModel) =>
-            foodModel.catagory.toLowerCase() == 'juice' &&
-            foodModel.name.toLowerCase().contains(search.toLowerCase()))
-        .toList();
-  }
+class Product1 extends StatelessWidget {
+  const Product1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    getAllNewFood();
+    final provider = Provider.of<FoodProvider>(context);
+    final searchprovider = Provider.of<SearchProvider>(context);
+    provider.getallproductsprovider();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
         title: const Text(
-          'JUICES',
+          'BIRIYANI',
           style: TextStyle(color: Colors.black, fontSize: 30),
         ),
         bottom: PreferredSize(
@@ -48,14 +37,12 @@ class _Product3State extends State<Product3> {
               width: 340,
               child: TextFormField(
                 onChanged: (value) {
-                  setState(() {
-                    search = value;
-                    searchListUpdate();
-                  });
+                  searchprovider.searchfunction(value);
+                  searchprovider.searchListUpdate();
                 },
                 decoration: const InputDecoration(
                   iconColor: Colors.white,
-                  hintText: 'search for juices...',
+                  hintText: 'search for biriyani',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -75,14 +62,14 @@ class _Product3State extends State<Product3> {
                   Widget? child) {
                 final filteredList = productList
                     .where((foodModel) =>
-                        foodModel.catagory.toLowerCase() == 'juice')
+                        foodModel.catagory.toLowerCase() == 'biriyani')
                     .toList();
-                return search.isNotEmpty
-                    ? searchedList.isEmpty
+                return searchprovider.search.isNotEmpty
+                    ? searchprovider.searchedList.isEmpty
                         ? const Center(
-                            child: Text('No value'),
+                            child: Text('No product'),
                           )
-                        : gridview(searchedList)
+                        : gridview(searchprovider.searchedList)
                     : gridview(filteredList);
               },
             ),

@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:firstproject/main.dart';
-import 'package:firstproject/screens/bottom_navbar.dart';
-import 'package:firstproject/screens/login_screen.dart';
+import 'package:firstproject/view/bottom_navbar.dart';
+import 'package:firstproject/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 3));
 
     Navigator.of(context).pushReplacement(
-        (MaterialPageRoute(builder: (context) => const Login())));
+        (MaterialPageRoute(builder: (context) =>  Login())));
   }
 
   Future<void> checklogin() async {
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (userlogin == null || userlogin.isEmpty) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Login()));
+          MaterialPageRoute(builder: (context) =>  Login()));
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const BottomNav()));

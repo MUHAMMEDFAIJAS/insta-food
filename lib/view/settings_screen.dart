@@ -1,18 +1,19 @@
-// ignore_for_file: use_build_context_synchronously
 
-import 'package:firstproject/admin/admin_page.dart';
-import 'package:firstproject/screens/about_us.dart';
-import 'package:firstproject/screens/buy_now.dart';
-import 'package:firstproject/screens/login_screen.dart';
+
+import 'package:firstproject/controller/login_provider.dart';
+import 'package:firstproject/view/admin/admin_page.dart';
+import 'package:firstproject/view/about_us.dart';
+import 'package:firstproject/view/buy_now.dart';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class MySettings extends StatelessWidget {
   const MySettings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<LoginProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
@@ -49,12 +50,7 @@ class MySettings extends StatelessWidget {
               icon: Icons.logout,
               title: 'log out',
               onTap: () async {
-                final sharedprf = await SharedPreferences.getInstance();
-                await sharedprf.clear();
-
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const Login()),
-                );
+                provider.logOut(context);
               })
         ],
       ),

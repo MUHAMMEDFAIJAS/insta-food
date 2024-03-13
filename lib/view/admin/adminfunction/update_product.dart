@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-import '../../functions/food_function.dart';
-import '../../model/newmodel/new_food_mode.dart';
+import '../../../functions/food_function.dart';
+import '../../../model/newmodel/new_food_mode.dart';
 
 class EditScreen extends StatefulWidget {
   final String name;
@@ -115,6 +116,7 @@ class EditScreenState extends State<EditScreen> {
   }
 
   Future<void> updateAll(int index) async {
+    final provider = Provider.of<DbFunction>(context);
     final newName = nameContrl.text.trim();
     final newPrice = priceContrl.text.trim();
     final newImagePath =
@@ -129,7 +131,7 @@ class EditScreenState extends State<EditScreen> {
       imagepath: newImagePath,
       catagory: widget.catogery,
     );
-    editNewFood(index, update);
+    provider.editNewFood(index, update);
     setState(() {});
     Navigator.pop(context);
   }

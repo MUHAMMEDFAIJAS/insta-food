@@ -1,12 +1,20 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/admin_delete_provider.dart';
+import 'package:firstproject/controller/buy_now_provider.dart';
+import 'package:firstproject/controller/cart_provider.dart';
+import 'package:firstproject/controller/edit_provider.dart';
+import 'package:firstproject/controller/login_provider.dart';
+import 'package:firstproject/controller/search_provider.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
 
 import 'package:firstproject/model/newmodel/new_food_mode.dart';
-import 'package:firstproject/screens/splash_screen.dart';
+import 'package:firstproject/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 const SAVE_KEY = ' UserLgedIn';
 
@@ -33,9 +41,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => LoginProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FoodProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Adminprovider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SearchProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Buynowprovider(),
+        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => EditScreenProvider(),
+        // )
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }

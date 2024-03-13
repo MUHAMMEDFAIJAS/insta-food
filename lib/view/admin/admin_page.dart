@@ -1,20 +1,17 @@
-import 'package:firstproject/admin/adminfunction/add_screen.dart';
-import 'package:firstproject/admin/adminfunction/admin_function.dart';
-import 'package:firstproject/admin/category/view_products.dart';
-import 'package:firstproject/admin/chart_page.dart';
+import 'package:firstproject/controller/admin_delete_provider.dart';
+import 'package:firstproject/view/admin/adminfunction/add_screen.dart';
+import 'package:firstproject/view/admin/category/view_products.dart';
+import 'package:firstproject/view/admin/chart_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Adminpage extends StatefulWidget {
+class Adminpage extends StatelessWidget {
   const Adminpage({super.key});
 
   @override
-  State<Adminpage> createState() => _AdminpageState();
-}
-
-class _AdminpageState extends State<Adminpage> {
-  @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<Adminprovider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -43,7 +40,7 @@ class _AdminpageState extends State<Adminpage> {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const BarChart(),
+                  builder: (context) =>  BarChart(),
                 ),
               );
             },
@@ -66,7 +63,7 @@ class _AdminpageState extends State<Adminpage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                deleteall();
+                                provider.admindeleteprovider();
                                 Navigator.of(context).pop();
                               },
                               child: const Text('delete'),

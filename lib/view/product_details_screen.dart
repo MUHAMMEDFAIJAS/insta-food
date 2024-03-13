@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'package:firstproject/controller/buy_now_provider.dart';
+import 'package:firstproject/controller/cart_provider.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
-import 'package:firstproject/functions/buy_now_functions.dart';
-import 'package:firstproject/functions/cart_functions.dart';
-import 'package:firstproject/screens/buy_now.dart';
-import 'package:firstproject/screens/cart_screen.dart';
+import 'package:firstproject/view/buy_now.dart';
+import 'package:firstproject/view/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatelessWidget {
   final String name;
@@ -23,7 +24,9 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getAllCart();
+    final detailsprovider = Provider.of<CartProvider>(context);
+    final buynowprovider = Provider.of<Buynowprovider>(context);
+    detailsprovider.getallcartsprovider();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -90,7 +93,7 @@ class ProductDetails extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orangeAccent),
                     onPressed: () {
-                      addToCart(CartModel(
+                      detailsprovider.addcartprovider(CartModel(
                           name: name, price: price, imagepath: imagepath));
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const AddCart()));
@@ -104,7 +107,7 @@ class ProductDetails extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orangeAccent),
                     onPressed: () {
-                      buynow(BuynowModel(
+                      buynowprovider.addbuynow(BuynowModel(
                         name: name,
                         price: price,
                         imagepath: imagepath,

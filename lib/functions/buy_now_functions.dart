@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 ValueNotifier<List<BuynowModel>> buyListNotifer = ValueNotifier([]);
+
+
+class  Buyfunction{
+  
+
+
 Future<void> buynow(BuynowModel value) async {
   final buynowDb = await Hive.openBox<BuynowModel>('buy_db');
   await buynowDb.add(value);
@@ -21,4 +27,5 @@ Future<void> deletorder(int index) async {
   final buynowDb = await Hive.openBox<BuynowModel>('buy_db');
   await buynowDb.deleteAt(index);
   getbuy();
+}
 }

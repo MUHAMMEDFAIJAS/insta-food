@@ -1,6 +1,6 @@
-import 'package:firstproject/screens/cart_screen.dart';
-import 'package:firstproject/screens/home_screen.dart';
-import 'package:firstproject/screens/settings_screen.dart';
+import 'package:firstproject/view/cart_screen.dart';
+import 'package:firstproject/view/home_screen.dart';
+import 'package:firstproject/view/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatefulWidget {

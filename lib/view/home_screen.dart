@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firstproject/screens/category/product_one_page.dart';
-import 'package:firstproject/screens/category/product_two-page.dart';
-import 'package:firstproject/screens/category/product_three_page.dart';
+import 'package:firstproject/view/category/product_one_page.dart';
+import 'package:firstproject/view/category/product_two-page.dart';
+import 'package:firstproject/view/category/product_three_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -80,7 +80,7 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Producttwo(),
+                        builder: (context) => const ProducTtwo(),
                       ),
                     );
                   },

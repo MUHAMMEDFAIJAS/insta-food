@@ -1,31 +1,31 @@
 import 'package:fine_bar_chart/fine_bar_chart.dart';
-import 'package:firstproject/admin/category/view_products.dart';
-import 'package:firstproject/screens/buy_now.dart';
-import 'package:firstproject/screens/cart_screen.dart';
+import 'package:firstproject/controller/cart_provider.dart';
+import 'package:firstproject/view/admin/category/view_products.dart';
+import 'package:firstproject/view/buy_now.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BarChart extends StatefulWidget {
-  const BarChart({super.key});
+class BarChart extends StatelessWidget {
+  BarChart({super.key});
 
-  @override
-  State<BarChart> createState() => _BarChartState();
-}
-
-class _BarChartState extends State<BarChart> {
   List<double> barValue = [
     totalprice1(),
     totalcartprice(),
     totalpricebuy(),
   ];
+
   List<Color> barColors = [Colors.blue, Colors.red, Colors.yellow];
+
   List<String> bottomBarName = [
     'total product ',
     'total cart ',
     'total buyed ',
   ];
+
   @override
   Widget build(BuildContext context) {
+    final  chartprovider = Provider.of<CartProvider>(context);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange[300],

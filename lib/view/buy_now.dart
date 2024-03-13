@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:firstproject/controller/buy_now_provider.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 
 import 'package:firstproject/functions/buy_now_functions.dart';
@@ -9,13 +10,15 @@ import 'package:firstproject/functions/buy_now_functions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class BuyNowPage extends StatelessWidget {
   const BuyNowPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    getbuy();
+    final buyprovider = Provider.of<Buynowprovider>(context);
+    buyprovider.getallbuy();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -80,7 +83,7 @@ class BuyNowPage extends StatelessWidget {
                                   const Gap(10),
                                   ElevatedButton(
                                     onPressed: () {
-                                      deletorder(index);
+                                      buyprovider.deleteallbuy(index);
                                     },
                                     child: const Text('cancel order'),
                                   )

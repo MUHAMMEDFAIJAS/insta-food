@@ -2,11 +2,12 @@
 
 import 'dart:io';
 
+import 'package:firstproject/controller/add_food_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../functions/food_function.dart';
-import '../../model/newmodel/new_food_mode.dart';
+import '../../../model/newmodel/new_food_mode.dart';
 
 class Addscreen extends StatefulWidget {
   const Addscreen({Key? key}) : super(key: key);
@@ -15,13 +16,9 @@ class Addscreen extends StatefulWidget {
   State<Addscreen> createState() => _AddscreenState();
 }
 
-enum Database { Briyani, Burger, Juices }
-
 class _AddscreenState extends State<Addscreen> {
   File? _image;
   String dropdownvalue = 'biriyani';
-
-  Database selectedDb = Database.Briyani;
 
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
@@ -120,54 +117,24 @@ class _AddscreenState extends State<Addscreen> {
   }
 
   Future<void> addbuttonpressed() async {
-    if (selectedDb == Database.Briyani) {
-      final newname = _nameController.text.trim();
-      final newprice = _priceController.text.trim();
+    final provider = Provider.of<FoodProvider>(context, listen: false);
+    final newname = _nameController.text.trim();
+    final newprice = _priceController.text.trim();
 
-      if (newname.isEmpty || newprice.isEmpty) {
-        return;
-      }
-      final product = NewFoodModel(
-        name: newname,
-        price: newprice,
-        imagepath: _image!.path,
-        catagory: dropdownvalue,
-      );
-      newAddedFood(product);
-
-      Navigator.pop(context);
-    } else if (selectedDb == Database.Burger) {
-      final newname = _nameController.text.trim();
-      final newprice = _priceController.text.trim();
-
-      if (newname.isEmpty || newprice.isEmpty) {
-        return;
-      }
-      final product = NewFoodModel(
-        name: newname,
-        price: newprice,
-        imagepath: _image!.path,
-        catagory: dropdownvalue,
-      );
-      newAddedFood(product);
-
-      Navigator.pop(context);
-    } else if (selectedDb == Database.Juices) {
-      final newname = _nameController.text.trim();
-      final newprice = _priceController.text.trim();
-
-      if (newname.isEmpty || newprice.isEmpty) {
-        return;
-      }
-      final product = NewFoodModel(
-        name: newname,
-        price: newprice,
-        imagepath: _image!.path,
-        catagory: dropdownvalue,
-      );
-      newAddedFood(product);
-
-      Navigator.pop(context);
+    if (newname.isEmpty || newprice.isEmpty) {
+      return;
     }
+    final product = NewFoodModel(
+      name: newname,
+      price: newprice,
+      imagepath: _image!.path,
+      catagory: dropdownvalue,
+    );
+    // provider.newAddedFood(product);
+    //  newAddedFood(product);
+    
+    provider.newAddedFoodProvider(product);
+
+    Navigator.pop(context);
   }
 }

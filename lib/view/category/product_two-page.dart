@@ -1,34 +1,23 @@
 import 'dart:io';
 
-import 'package:firstproject/screens/product_details_screen.dart';
+import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/search_provider.dart';
+import 'package:firstproject/view/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 import '../../functions/food_function.dart';
 import '../../model/newmodel/new_food_mode.dart';
 
-class Producttwo extends StatefulWidget {
-  const Producttwo({Key? key}) : super(key: key);
-
-  @override
-  State<Producttwo> createState() => _ProducttwoState();
-}
-
-class _ProducttwoState extends State<Producttwo> {
-  String search = '';
-  List<NewFoodModel> searchedList = [];
-
-  void searchlist() {
-    searchedList = newFoodModelListNotifier.value
-        .where((NewFoodModel newmodel) =>
-            newmodel.catagory.toLowerCase() == 'burger' &&
-            newmodel.name.toLowerCase().contains(search.toLowerCase()))
-        .toList();
-  }
+class ProducTtwo extends StatelessWidget {
+  const ProducTtwo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    getAllNewFood();
+    final provider = Provider.of<FoodProvider>(context);
+    final searchprovider2 = Provider.of<SearchProvider>(context);
+    provider.getallproductsprovider();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -48,10 +37,8 @@ class _ProducttwoState extends State<Producttwo> {
               width: 340,
               child: TextFormField(
                 onChanged: (value) {
-                  setState(() {
-                    search = value;
-                    searchlist();
-                  });
+                  searchprovider2.searchfunction2(value);
+                  searchprovider2.searchListUpdate2();
                 },
                 decoration: const InputDecoration(
                   iconColor: Colors.white,
@@ -77,12 +64,12 @@ class _ProducttwoState extends State<Producttwo> {
                     .where((foodModel) =>
                         foodModel.catagory.toLowerCase() == 'burger')
                     .toList();
-                return search.isNotEmpty
-                    ? searchedList.isEmpty
+                return searchprovider2.search2.isNotEmpty
+                    ? searchprovider2.searchedList2.isEmpty
                         ? const Center(
                             child: Text('No value'),
                           )
-                        : gridview(searchedList)
+                        : gridview(searchprovider2.searchedList2)
                     : gridview(filteredList);
               },
             ),
