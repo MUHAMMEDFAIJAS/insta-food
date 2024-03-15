@@ -1,7 +1,7 @@
 import 'package:firstproject/functions/food_function.dart';
 import 'package:flutter/material.dart';
 
-import '../model/newmodel/new_food_mode.dart';
+import '../model/newmodel/new_food_model.dart';
 
 class SearchProvider extends ChangeNotifier {
   String search = "";

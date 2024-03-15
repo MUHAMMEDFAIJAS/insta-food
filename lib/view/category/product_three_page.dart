@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/food_model_provider.dart';
 import 'package:firstproject/controller/search_provider.dart';
 import 'package:firstproject/view/product_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 import '../../functions/food_function.dart';
-import '../../model/newmodel/new_food_mode.dart';
+import '../../model/newmodel/new_food_model.dart';
 
 class Product3 extends StatelessWidget {
   const Product3({Key? key}) : super(key: key);

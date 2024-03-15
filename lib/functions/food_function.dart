@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/adapters.dart';
 
-import '../model/newmodel/new_food_mode.dart';
+import '../model/newmodel/new_food_model.dart';
 
 ValueNotifier<List<NewFoodModel>> newFoodModelListNotifier = ValueNotifier([]);
 

@@ -121,10 +121,10 @@ class BuyNowPage extends StatelessWidget {
   }
 }
 
-double totalpricebuy() {
-  double totals = 0;
-  for (var item in buyListNotifer.value) {
-    totals += num.parse(item.price);
-  }
-  return totals;
-}
+// double totalpricebuy() {
+//   double totals = 0;
+//   for (var item in buyListNotifer.value) {
+//     totals += num.parse(item.price);
+//   }
+//   return totals;
+// }

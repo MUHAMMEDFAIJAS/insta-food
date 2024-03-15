@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firstproject/controller/buy_now_provider.dart';
 import 'package:firstproject/controller/cart_provider.dart';
+import 'package:firstproject/controller/total_price_proider.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
 import 'package:firstproject/functions/cart_functions.dart';
@@ -18,6 +19,7 @@ class AddCart extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartprovider = Provider.of<CartProvider>(context);
     final buyprovider = Provider.of<Buynowprovider>(context);
+        final totalcartprovider = Provider.of<Totalpriceprovider>(context);
     cartprovider.getallcartsprovider();
 
     return Scaffold(
@@ -147,7 +149,7 @@ class AddCart extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '₹ ${cartprovider.totalcartprice()}',
+                      '₹ ${totalcartprovider.totalcartprice()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

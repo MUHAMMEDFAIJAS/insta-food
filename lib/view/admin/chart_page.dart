@@ -1,31 +1,32 @@
 import 'package:fine_bar_chart/fine_bar_chart.dart';
-import 'package:firstproject/controller/cart_provider.dart';
-import 'package:firstproject/view/admin/category/view_products.dart';
-import 'package:firstproject/view/buy_now.dart';
+import 'package:firstproject/controller/total_price_proider.dart';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BarChart extends StatelessWidget {
-  BarChart({super.key});
-
-  List<double> barValue = [
-    totalprice1(),
-    totalcartprice(),
-    totalpricebuy(),
-  ];
-
-  List<Color> barColors = [Colors.blue, Colors.red, Colors.yellow];
-
-  List<String> bottomBarName = [
-    'total product ',
-    'total cart ',
-    'total buyed ',
-  ];
+  const BarChart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final  chartprovider = Provider.of<CartProvider>(context);
+    List<Color> barColors = [Colors.blue, Colors.red, Colors.yellow];
+    List<String> bottomBarName = [
+      'total product ',
+      'total cart ',
+      'total buyed ',
+    ];
+
+    final totalpriceprovider = Provider.of<Totalpriceprovider>(context);
+    final totalcartprovider = Provider.of<Totalpriceprovider>(context);
+
+    final totalbuyprovider = Provider.of<Totalpriceprovider>(context);
+    List<double> barValue = [
+      totalpriceprovider.totalprice1(),
+      totalcartprovider.totalcartprice(),
+      totalbuyprovider.totalpricebuy(),
+    ];
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.orange[300],

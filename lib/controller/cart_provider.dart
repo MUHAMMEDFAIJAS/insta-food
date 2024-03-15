@@ -16,11 +16,5 @@ class CartProvider extends ChangeNotifier {
     cartfun.deletcartproduct(index);
   }
 
-  double totalcartprice() {
-    double totals = 0;
-    for (var item in cartListNotifer.value) {
-      totals += num.parse(item.price);
-    }
-    return totals;
-  }
+
 }

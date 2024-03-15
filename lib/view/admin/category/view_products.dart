@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/food_model_provider.dart';
+import 'package:firstproject/controller/total_price_proider.dart';
 import 'package:firstproject/view/admin/adminfunction/update_product.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../functions/food_function.dart';
-import '../../../model/newmodel/new_food_mode.dart';
+import '../../../model/newmodel/new_food_model.dart';
 
 class Viewproducts extends StatelessWidget {
   const Viewproducts({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class Viewproducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<FoodProvider>(context);
+    final totalprovider = Provider.of<Totalpriceprovider>(context);
     provider.getallproductsprovider();
     return Scaffold(
       appBar: AppBar(
@@ -142,7 +144,7 @@ class Viewproducts extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '₹ ${totalprice1()}',
+                      '₹ ${totalprovider.totalprice1()}',
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -158,12 +160,4 @@ class Viewproducts extends StatelessWidget {
       ),
     );
   }
-}
-
-double totalprice1() {
-  double totals = 0;
-  for (var item in newFoodModelListNotifier.value) {
-    totals += double.parse(item.price);
-  }
-  return totals;
 }

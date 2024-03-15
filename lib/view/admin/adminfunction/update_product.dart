@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../functions/food_function.dart';
-import '../../../model/newmodel/new_food_mode.dart';
+import '../../../model/newmodel/new_food_model.dart';
 
 class EditScreen extends StatefulWidget {
   final String name;

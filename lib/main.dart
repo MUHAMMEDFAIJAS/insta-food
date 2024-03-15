@@ -1,16 +1,18 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:firstproject/controller/add_food_provider.dart';
+import 'package:firstproject/controller/add_screen_provider.dart';
+import 'package:firstproject/controller/food_model_provider.dart';
 import 'package:firstproject/controller/admin_delete_provider.dart';
 import 'package:firstproject/controller/buy_now_provider.dart';
 import 'package:firstproject/controller/cart_provider.dart';
-import 'package:firstproject/controller/edit_provider.dart';
+import 'package:firstproject/controller/chart_provider.dart';
 import 'package:firstproject/controller/login_provider.dart';
 import 'package:firstproject/controller/search_provider.dart';
+import 'package:firstproject/controller/total_price_proider.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
 
-import 'package:firstproject/model/newmodel/new_food_mode.dart';
+import 'package:firstproject/model/newmodel/new_food_model.dart';
 import 'package:firstproject/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -61,9 +63,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Buynowprovider(),
         ),
-        // ChangeNotifierProvider(
-        //   create: (context) => EditScreenProvider(),
-        // )
+        ChangeNotifierProvider(
+          create: (context) => ChartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Totalpriceprovider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddproductProvider(),
+        ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
