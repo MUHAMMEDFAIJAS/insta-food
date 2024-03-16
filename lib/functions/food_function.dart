@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:hive_flutter/adapters.dart';
@@ -11,26 +13,28 @@ class DbFunction {
     final newaddedDB = await Hive.openBox<NewFoodModel>('newadded_db');
     await newaddedDB.add(value);
     newFoodModelListNotifier.value.add(value);
-    newFoodModelListNotifier.notifyListeners();
+     newFoodModelListNotifier.notifyListeners();
   }
 
   Future<void> getAllNewFood() async {
     final newaddedDb = await Hive.openBox<NewFoodModel>('newadded_db');
     newFoodModelListNotifier.value.clear();
     newFoodModelListNotifier.value.addAll(newaddedDb.values);
-    newFoodModelListNotifier.notifyListeners();
+     newFoodModelListNotifier.notifyListeners();
   }
 
   Future<void> editNewFood(int index, NewFoodModel value) async {
+    log('message');
     final newaddedDb = await Hive.openBox<NewFoodModel>('newadded_db');
     newFoodModelListNotifier.value.clear();
     newFoodModelListNotifier.value.addAll(newaddedDb.values);
     newaddedDb.putAt(index, value);
-    newFoodModelListNotifier.notifyListeners();
+     newFoodModelListNotifier.notifyListeners();
     getAllNewFood();
   }
 
   Future<void> deleteNew(index) async {
+    log('deletefunction');
     final newaddedDb = await Hive.openBox<NewFoodModel>('newadded_db');
     newaddedDb.deleteAt(index);
     getAllNewFood();

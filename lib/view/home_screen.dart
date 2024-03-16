@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firstproject/view/category/product_one_page.dart';
-import 'package:firstproject/view/category/product_two-page.dart';
+import 'package:firstproject/view/category/product_two_page.dart';
 import 'package:firstproject/view/category/product_three_page.dart';
 import 'package:flutter/material.dart';
 

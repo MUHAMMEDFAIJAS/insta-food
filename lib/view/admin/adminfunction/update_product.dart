@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../functions/food_function.dart';
+import '../../../controller/food_model_provider.dart';
+
 import '../../../model/newmodel/new_food_model.dart';
 
 class EditScreen extends StatefulWidget {
@@ -102,7 +103,6 @@ class EditScreenState extends State<EditScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       updateAll(widget.index);
-                      Navigator.pop(context);
                     },
                     child: const Text('Update Product'),
                   ),
@@ -116,7 +116,7 @@ class EditScreenState extends State<EditScreen> {
   }
 
   Future<void> updateAll(int index) async {
-    final provider = Provider.of<DbFunction>(context);
+    final provider = Provider.of<FoodProvider>(context, listen: false);
     final newName = nameContrl.text.trim();
     final newPrice = priceContrl.text.trim();
     final newImagePath =
@@ -131,8 +131,8 @@ class EditScreenState extends State<EditScreen> {
       imagepath: newImagePath,
       catagory: widget.catogery,
     );
-    provider.editNewFood(index, update);
-    setState(() {});
+    provider.editproductsprovider(index, update);
+    // setState(() {});
     Navigator.pop(context);
   }
 

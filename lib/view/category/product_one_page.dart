@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firstproject/controller/food_model_provider.dart';
@@ -15,6 +16,7 @@ class Product1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('wwwwwwwwwwwwwww');
     final provider = Provider.of<FoodProvider>(context);
     final searchprovider = Provider.of<SearchProvider>(context);
     provider.getallproductsprovider();

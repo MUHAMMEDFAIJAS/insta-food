@@ -30,7 +30,7 @@ class AddproductProvider extends ChangeNotifier {
 
   Future<void> addbuttonpressed(context) async {
     final provider = Provider.of<FoodProvider>(context, listen: false);
-    final newname =nameController.text.trim();
+    final newname = nameController.text.trim();
     final newprice = priceController.text.trim();
 
     if (newname.isEmpty || newprice.isEmpty) {
@@ -42,11 +42,15 @@ class AddproductProvider extends ChangeNotifier {
       imagepath: image!.path,
       catagory: dropdownvalue,
     );
-    // provider.newAddedFood(product);
-    //  newAddedFood(product);
 
     provider.newAddedFoodProvider(product);
 
     Navigator.pop(context);
+  }
+
+  clearaddproducts() {
+    nameController.clear();
+    priceController.clear();
+    image = null;
   }
 }

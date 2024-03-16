@@ -40,7 +40,7 @@ class Adminpage extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) =>  BarChart(),
+                  builder: (context) => const BarChart(),
                 ),
               );
             },

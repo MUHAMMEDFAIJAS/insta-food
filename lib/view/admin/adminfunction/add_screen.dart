@@ -1,5 +1,3 @@
-
-
 import 'package:firstproject/controller/add_screen_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,6 +68,7 @@ class Addscreen extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: () {
                       provider.addbuttonpressed(context);
+                      provider.clearaddproducts();
                     },
                     icon: const Icon(Icons.add),
                     label: const Text('Add Product'),
