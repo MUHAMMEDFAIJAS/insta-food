@@ -1,7 +1,6 @@
 import 'package:fine_bar_chart/fine_bar_chart.dart';
 import 'package:firstproject/controller/total_price_proider.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +18,8 @@ class BarChart extends StatelessWidget {
 
     final totalpriceprovider = Provider.of<Totalpriceprovider>(context);
     final totalcartprovider = Provider.of<Totalpriceprovider>(context);
-
     final totalbuyprovider = Provider.of<Totalpriceprovider>(context);
+
     List<double> barValue = [
       totalpriceprovider.totalprice1(),
       totalcartprovider.totalcartprice(),

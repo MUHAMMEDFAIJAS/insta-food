@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controller/edit_screen_provider.dart';
 import '../../../controller/food_model_provider.dart';
 
 import '../../../model/newmodel/new_food_model.dart';
@@ -30,20 +30,19 @@ class EditScreen extends StatefulWidget {
 }
 
 class EditScreenState extends State<EditScreen> {
-  TextEditingController nameContrl = TextEditingController();
-  TextEditingController priceContrl = TextEditingController();
-  File? _selectImage;
-
   @override
   void initState() {
-    nameContrl = TextEditingController(text: widget.name);
-    priceContrl = TextEditingController(text: widget.price);
-    _selectImage = widget.imagepath.isNotEmpty ? File(widget.imagepath) : null;
+    final provider = Provider.of<Editprovider>(context, listen: false);
+    provider.nameContrl = TextEditingController(text: widget.name);
+    provider.priceContrl = TextEditingController(text: widget.price);
+    provider.selectImage =
+        widget.imagepath.isNotEmpty ? File(widget.imagepath) : null;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<Editprovider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
@@ -68,8 +67,8 @@ class EditScreenState extends State<EditScreen> {
                     width: 200,
                     height: 200,
                     child: CircleAvatar(
-                      backgroundImage: _selectImage != null
-                          ? FileImage(_selectImage!)
+                      backgroundImage: provider.selectImage != null
+                          ? FileImage(provider.selectImage!)
                           : const AssetImage("assets/images/default_image.jpg")
                               as ImageProvider,
                     ),
@@ -78,13 +77,13 @@ class EditScreenState extends State<EditScreen> {
                 const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
-                    onPressed: _pickImgGallery,
+                    onPressed: provider.pickImgGallery,
                     child: const Text('select Image'),
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: nameContrl,
+                  controller: provider.nameContrl,
                   decoration: const InputDecoration(
                     labelText: 'Product Name',
                     border: OutlineInputBorder(),
@@ -92,7 +91,7 @@ class EditScreenState extends State<EditScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: priceContrl,
+                  controller: provider.priceContrl,
                   decoration: const InputDecoration(
                     labelText: 'Price',
                     border: OutlineInputBorder(),
@@ -116,11 +115,12 @@ class EditScreenState extends State<EditScreen> {
   }
 
   Future<void> updateAll(int index) async {
+    final pro = Provider.of<Editprovider>(context, listen: false);
     final provider = Provider.of<FoodProvider>(context, listen: false);
-    final newName = nameContrl.text.trim();
-    final newPrice = priceContrl.text.trim();
+    final newName = pro.nameContrl.text.trim();
+    final newPrice = pro.priceContrl.text.trim();
     final newImagePath =
-        _selectImage != null ? _selectImage!.path : widget.imagepath;
+        pro.selectImage != null ? pro.selectImage!.path : widget.imagepath;
 
     if (newName.isEmpty || newPrice.isEmpty || newImagePath.isEmpty) {
       return;
@@ -132,18 +132,7 @@ class EditScreenState extends State<EditScreen> {
       catagory: widget.catogery,
     );
     provider.editproductsprovider(index, update);
-    // setState(() {});
-    Navigator.pop(context);
-  }
 
-  Future<void> _pickImgGallery() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) {
-      return;
-    }
-    setState(() {
-      _selectImage = File(returnImage.path);
-    });
+    Navigator.pop(context);
   }
 }

@@ -1,4 +1,3 @@
-import 'package:firstproject/functions/food_function.dart';
 import 'package:firstproject/model/buynow/buynowmodel.dart';
 import 'package:firstproject/model/cartmodel/cartmodel.dart';
 import 'package:firstproject/model/newmodel/new_food_model.dart';

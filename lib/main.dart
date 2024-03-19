@@ -1,11 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:firstproject/controller/add_screen_provider.dart';
+import 'package:firstproject/controller/edit_screen_provider.dart';
 import 'package:firstproject/controller/food_model_provider.dart';
 import 'package:firstproject/controller/admin_delete_provider.dart';
 import 'package:firstproject/controller/buy_now_provider.dart';
 import 'package:firstproject/controller/cart_provider.dart';
-import 'package:firstproject/controller/chart_provider.dart';
 import 'package:firstproject/controller/login_provider.dart';
 import 'package:firstproject/controller/search_provider.dart';
 import 'package:firstproject/controller/total_price_proider.dart';
@@ -63,15 +63,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Buynowprovider(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => ChartProvider(),
-        ),
+     
         ChangeNotifierProvider(
           create: (context) => Totalpriceprovider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AddproductProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => Editprovider(),
+        )
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

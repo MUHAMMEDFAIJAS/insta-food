@@ -14,7 +14,6 @@ class CartProvider extends ChangeNotifier {
 
   void deletecartprovider(index) {
     cartfun.deletcartproduct(index);
+    notifyListeners();
   }
-
-
 }

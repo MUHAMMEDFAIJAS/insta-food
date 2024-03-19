@@ -9,14 +9,13 @@ class Buyfunction {
     final buynowDb = await Hive.openBox<BuynowModel>('buy_db');
     await buynowDb.add(value);
     await getbuy();
-    buyListNotifer.notifyListeners();
+  
   }
 
   Future<void> getbuy() async {
     final buynowDb = await Hive.openBox<BuynowModel>('buy_db');
     buyListNotifer.value.clear();
     buyListNotifer.value.addAll(buynowDb.values);
-    buyListNotifer.notifyListeners();
   }
 
   Future<void> deletorder(int index) async {
